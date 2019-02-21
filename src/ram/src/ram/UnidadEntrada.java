@@ -5,9 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 public class UnidadEntrada {
-	
+
 	private BufferedReader cintaEntrada;
-	
+
 	public UnidadEntrada(String archivoEntrada) {
 		try {
 			cintaEntrada = new BufferedReader(new FileReader(archivoEntrada));

@@ -5,9 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class UnidadSalida {
-	
+
 	private BufferedWriter cintaSalida;
-	
+
 	public UnidadSalida(String nombreArchivoSalida) {
 		try {
 			cintaSalida = new BufferedWriter(new FileWriter(nombreArchivoSalida));
