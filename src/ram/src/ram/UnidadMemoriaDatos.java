@@ -1,16 +1,21 @@
 package ram;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UnidadMemoriaDatos {
 
-	private ArrayList<Integer> datos;
+	private Map<Integer, Integer> datos;
 
 	public UnidadMemoriaDatos() {
-		this.datos = new ArrayList<>(20);
+		this.datos = new HashMap<Integer, Integer>();
 	}
 
 	public Integer get(int pos) {
 		return datos.get(pos);
+	}
+	
+	public void set(int pos, Integer dato) {
+		datos.put(pos, dato);
 	}
 }

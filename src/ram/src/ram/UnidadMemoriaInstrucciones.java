@@ -25,7 +25,6 @@ public class UnidadMemoriaInstrucciones {
 			this.etiqueta = etiqueta;
 			this.instruccion = instruccion;
 			this.operando = operando;
-			System.out.println(etiqueta + " " + instruccion.name() + " " + operando);
 		}
 
 	}
@@ -45,21 +44,21 @@ public class UnidadMemoriaInstrucciones {
 					instruccion = instruccion.substring(0, encuentro.start());
 				}
 
-				String[] token = instruccion.matches("\\s*") ? new String[0] : instruccion.trim().split("\\s+") ;
+				String[] token = instruccion.matches("\\s*") ? new String[0] : instruccion.trim().split("\\s+");
 
 				if (token.length != 0) {
 					String etiqueta = null;
 					InstruccionesValidas nombreInstruccion = null;
 					String operador = null;
 
-					if (token[0].matches("[a-zA-Z_1-9]+:")) {
+					if (token[0].matches("[a-zA-Z_0-9]+:")) {
 						etiqueta = token[0].substring(0, token[0].length() - 1);
 
 						if (token.length > 1) {
 							try {
 								nombreInstruccion = InstruccionesValidas.valueOf(token[1].toUpperCase());
 								if (token.length > 2) {
-									if (token.length == 3 && token[2].matches("([=*]?[0-9]+)|([a-zA-Z_1-9]+)")) {
+									if (token.length == 3 && token[2].matches("([=*]?[0-9]+)|([a-zA-Z_0-9]+)")) {
 										operador = token[2];
 									} else {
 										throw new IllegalArgumentException("Instrucción " + instruccion + " no válida");
@@ -73,7 +72,7 @@ public class UnidadMemoriaInstrucciones {
 						try {
 							nombreInstruccion = InstruccionesValidas.valueOf(token[0].toUpperCase());
 							if (token.length > 1) {
-								if (token.length == 2 && token[1].matches("([=*]?[0-9]+)|([a-zA-Z_1-9]+)")) {
+								if (token.length == 2 && token[1].matches("([=*]?[0-9]+)|([a-zA-Z_0-9]+)")) {
 									operador = token[1];
 								} else {
 									throw new IllegalArgumentException("Instrucción " + instruccion + " no válida");
@@ -95,18 +94,24 @@ public class UnidadMemoriaInstrucciones {
 	}
 
 	public Instruccion get(int ip) {
-		if (ip < instrucciones.size()) {
+		if (ip < instrucciones.size() && ip >= 0) {
 			return instrucciones.get(ip);
 		}
 		return null;
 	}
 
 	public int get(String etiqueta) {
-		for (int i = 0; i < instrucciones.size(); i++) {
-			if (etiqueta.equals(instrucciones.get(i).etiqueta)) {
-				return i;
+		if (etiqueta != null) {
+			for (int i = 0; i < instrucciones.size(); i++) {
+				if (etiqueta.equals(instrucciones.get(i).etiqueta)) {
+					return i;
+				}
 			}
 		}
 		return -1;
+	}
+
+	public int getUltimaInstruccion() {
+		return instrucciones.size();
 	}
 }

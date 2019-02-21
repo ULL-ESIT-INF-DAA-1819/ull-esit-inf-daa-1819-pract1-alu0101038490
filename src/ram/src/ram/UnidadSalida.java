@@ -15,4 +15,21 @@ public class UnidadSalida {
 			System.out.println("Ha habido un problema, con el fichero de salida.");
 		}
 	}
+
+	public void set(int valor) { 
+		try {
+			cintaSalida.write(String.valueOf(valor));
+			cintaSalida.newLine();
+		} catch (IOException e) {
+			System.out.println("Ha habido un problema, con el fichero de salida.");
+		}
+	}
+
+	public void cerrar() {
+		try {
+			cintaSalida.close();
+		} catch (IOException e) {
+			System.out.println("Ha habido un problema cerrando el fichero de salida.");
+		}
+	}
 }
