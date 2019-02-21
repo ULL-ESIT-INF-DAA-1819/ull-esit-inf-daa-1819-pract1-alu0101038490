@@ -12,9 +12,10 @@ public class UnidadMemoriaDatos {
 	}
 
 	public Integer get(int pos) {
-		return datos.get(pos);
+		Integer resultado = datos.get(pos);
+		return (resultado == null) ? 0 : resultado;
 	}
-	
+
 	public void set(int pos, Integer dato) {
 		datos.put(pos, dato);
 	}

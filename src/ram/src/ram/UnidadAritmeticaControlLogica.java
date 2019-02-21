@@ -19,74 +19,62 @@ public class UnidadAritmeticaControlLogica {
 	}
 
 	private void ejecutarInstruccion(Instruccion instruccion) {
-		System.out.println(instruccion.etiqueta + " " + instruccion.instruccion.name() + " " + instruccion.operando);
-		switch (instruccion.instruccion) {
-			case ADD:
-				add(instruccion);
-				break;
-			case DIV:
-				div(instruccion);
-				break;
-			case HALT:
-				halt(instruccion);
-				break;
-			case JGTZ:
-				jgtz(instruccion);
-				break;
-			case JUMP:
-				jump(instruccion);
-				break;
-			case JZERO:
-				jzero(instruccion);
-				break;
-			case LOAD:
-				load(instruccion);
-				break;
-			case MUL:
-				mul(instruccion);
-				break;
-			case READ:
-				read(instruccion);
-				break;
-			case STORE:
-				store(instruccion);
-				break;
-			case SUB:
-				sub(instruccion);
-				break;
-			case WRITE:
-				write(instruccion);
-				break;
-			default:
-				throw new IllegalArgumentException("Instrucción no encontrada.");
+		if (instruccion.instruccion == null) {
+			ip++;
+		} else {
+			switch (instruccion.instruccion) {
+				case ADD:
+					add(instruccion.operando);
+					break;
+				case DIV:
+					div(instruccion.operando);
+					break;
+				case HALT:
+					halt(instruccion.operando);
+					break;
+				case JGTZ:
+					jgtz(instruccion.operando);
+					break;
+				case JUMP:
+					jump(instruccion.operando);
+					break;
+				case JZERO:
+					jzero(instruccion.operando);
+					break;
+				case LOAD:
+					load(instruccion.operando);
+					break;
+				case MUL:
+					mul(instruccion.operando);
+					break;
+				case READ:
+					read(instruccion.operando);
+					break;
+				case STORE:
+					store(instruccion.operando);
+					break;
+				case SUB:
+					sub(instruccion.operando);
+					break;
+				case WRITE:
+					write(instruccion.operando);
+					break;
+				default:
+					throw new IllegalArgumentException("Instrucción no encontrada.");
+			}
 		}
 	}
 
-	/*
-	 * if (instruccion.operando.matches("[0-9]+")) {
-	 * unidadMemoriaDatos.get(Integer.valueOf(instruccion.operando)) } else if
-	 * (instruccion.operando.matches("=[0-9]+")) {
-	 * Integer.valueOf(instruccion.operando) } else if
-	 * (instruccion.operando.matches("\\*[0-9]+")) {
-	 * unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(instruccion.
-	 * operando.substring(1)))) } else if (instruccion.operando == null) {
-	 * 
-	 * } else if (instruccion.operando.matches("[a-zA-Z_0-9]+")) {
-	 * 
-	 * } else { throw new IllegalArgumentException("operando invalid0"); }
-	 */
-
-	private void add(Instruccion instruccion) {
+	private void add(String operando) {
 		int valorRegistroCero = unidadMemoriaDatos.get(0);
 		int valorParaSumar = 0;
 
-		if (instruccion.operando.matches("[0-9]+")) {
-			valorParaSumar = unidadMemoriaDatos.get(Integer.valueOf(instruccion.operando));
-		} else if (instruccion.operando.matches("=[0-9]+")) {
-			valorParaSumar = Integer.valueOf(instruccion.operando);
-		} else if (instruccion.operando.matches("\\*[0-9]+")) {
-			valorParaSumar = unidadMemoriaDatos
-					.get(unidadMemoriaDatos.get(Integer.valueOf(instruccion.operando.substring(1))));
+		if (operando.matches("[0-9]+")) {
+			valorParaSumar = unidadMemoriaDatos.get(Integer.valueOf(operando));
+		} else if (operando.matches("=[0-9]+")) {
+			valorParaSumar = Integer.valueOf(operando.substring(1));
+		} else if (operando.matches("\\*[0-9]+")) {
+			valorParaSumar = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
 		} else {
 			throw new IllegalArgumentException("operando invalida");
 		}
@@ -95,17 +83,16 @@ public class UnidadAritmeticaControlLogica {
 		ip++;
 	}
 
-	private void div(Instruccion instruccion) {
+	private void div(String operando) {
 		int valorRegistroCero = unidadMemoriaDatos.get(0);
 		int valorParaSumar = 0;
 
-		if (instruccion.operando.matches("[0-9]+")) {
-			valorParaSumar = unidadMemoriaDatos.get(Integer.valueOf(instruccion.operando));
-		} else if (instruccion.operando.matches("=[0-9]+")) {
-			valorParaSumar = Integer.valueOf(instruccion.operando);
-		} else if (instruccion.operando.matches("\\*[0-9]+")) {
-			valorParaSumar = unidadMemoriaDatos
-					.get(unidadMemoriaDatos.get(Integer.valueOf(instruccion.operando.substring(1))));
+		if (operando.matches("[0-9]+")) {
+			valorParaSumar = unidadMemoriaDatos.get(Integer.valueOf(operando));
+		} else if (operando.matches("=[0-9]+")) {
+			valorParaSumar = Integer.valueOf(operando.substring(1));
+		} else if (operando.matches("\\*[0-9]+")) {
+			valorParaSumar = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
 		} else {
 			throw new IllegalArgumentException("operando invalida");
 		}
@@ -114,17 +101,16 @@ public class UnidadAritmeticaControlLogica {
 		ip++;
 	}
 
-	private void mul(Instruccion instruccion) {
+	private void mul(String operando) {
 		int valorRegistroCero = unidadMemoriaDatos.get(0);
 		int valorParaSumar = 0;
 
-		if (instruccion.operando.matches("[0-9]+")) {
-			valorParaSumar = unidadMemoriaDatos.get(Integer.valueOf(instruccion.operando));
-		} else if (instruccion.operando.matches("=[0-9]+")) {
-			valorParaSumar = Integer.valueOf(instruccion.operando);
-		} else if (instruccion.operando.matches("\\*[0-9]+")) {
-			valorParaSumar = unidadMemoriaDatos
-					.get(unidadMemoriaDatos.get(Integer.valueOf(instruccion.operando.substring(1))));
+		if (operando.matches("[0-9]+")) {
+			valorParaSumar = unidadMemoriaDatos.get(Integer.valueOf(operando));
+		} else if (operando.matches("=[0-9]+")) {
+			valorParaSumar = Integer.valueOf(operando.substring(1));
+		} else if (operando.matches("\\*[0-9]+")) {
+			valorParaSumar = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
 		} else {
 			throw new IllegalArgumentException("operando invalida");
 		}
@@ -133,17 +119,16 @@ public class UnidadAritmeticaControlLogica {
 		ip++;
 	}
 
-	private void sub(Instruccion instruccion) {
+	private void sub(String operando) {
 		int valorRegistroCero = unidadMemoriaDatos.get(0);
 		int valorParaSumar = 0;
 
-		if (instruccion.operando.matches("[0-9]+")) {
-			valorParaSumar = unidadMemoriaDatos.get(Integer.valueOf(instruccion.operando));
-		} else if (instruccion.operando.matches("=[0-9]+")) {
-			valorParaSumar = Integer.valueOf(instruccion.operando.substring(1));
-		} else if (instruccion.operando.matches("\\*[0-9]+")) {
-			valorParaSumar = unidadMemoriaDatos
-					.get(unidadMemoriaDatos.get(Integer.valueOf(instruccion.operando.substring(1))));
+		if (operando.matches("[0-9]+")) {
+			valorParaSumar = unidadMemoriaDatos.get(Integer.valueOf(operando));
+		} else if (operando.matches("=[0-9]+")) {
+			valorParaSumar = Integer.valueOf(operando.substring(1));
+		} else if (operando.matches("\\*[0-9]+")) {
+			valorParaSumar = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
 		} else {
 			throw new IllegalArgumentException("operando invalida");
 		}
@@ -152,16 +137,15 @@ public class UnidadAritmeticaControlLogica {
 		ip++;
 	}
 
-	private void load(Instruccion instruccion) {
+	private void load(String operando) {
 		int valorParaCargar;
 
-		if (instruccion.operando.matches("[0-9]+")) {
-			valorParaCargar = unidadMemoriaDatos.get(Integer.valueOf(instruccion.operando));
-		} else if (instruccion.operando.matches("=[0-9]+")) {
-			valorParaCargar = Integer.valueOf(instruccion.operando.substring(1)); 
-		} else if (instruccion.operando.matches("\\*[0-9]+")) {
-			valorParaCargar = unidadMemoriaDatos
-					.get(unidadMemoriaDatos.get(Integer.valueOf(instruccion.operando.substring(1))));
+		if (operando.matches("[0-9]+")) {
+			valorParaCargar = unidadMemoriaDatos.get(Integer.valueOf(operando));
+		} else if (operando.matches("=[0-9]+")) {
+			valorParaCargar = Integer.valueOf(operando.substring(1));
+		} else if (operando.matches("\\*[0-9]+")) {
+			valorParaCargar = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
 		} else {
 			throw new IllegalArgumentException("operando invalida");
 		}
@@ -170,14 +154,14 @@ public class UnidadAritmeticaControlLogica {
 		ip++;
 	}
 
-	private void store(Instruccion instruccion) {
+	private void store(String operando) {
 		int registroDondeAlmacenar;
 		int valorParaAlmacenar = unidadMemoriaDatos.get(0);
 
-		if (instruccion.operando.matches("[0-9]+")) {
-			registroDondeAlmacenar = Integer.valueOf(instruccion.operando);
-		} else if (instruccion.operando.matches("\\*[0-9]+")) {
-			registroDondeAlmacenar = unidadMemoriaDatos.get(Integer.valueOf(instruccion.operando.substring(1)));
+		if (operando.matches("[0-9]+")) {
+			registroDondeAlmacenar = Integer.valueOf(operando);
+		} else if (operando.matches("\\*[0-9]+")) {
+			registroDondeAlmacenar = unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1)));
 		} else {
 			throw new IllegalArgumentException("operando invalida");
 		}
@@ -186,38 +170,38 @@ public class UnidadAritmeticaControlLogica {
 		ip++;
 	}
 
-	private void jump(Instruccion instruccion) {
-		if (instruccion.operando.matches("[a-zA-Z_0-9]+")) {
-			ip = unidadMemoriaInstrucciones.get(instruccion.operando);
+	private void jump(String operando) {
+		if (operando.matches("[a-zA-Z_0-9]+")) {
+			ip = unidadMemoriaInstrucciones.get(operando);
 		} else {
 			throw new IllegalArgumentException("operando invalido");
 		}
 	}
 
-	private void jzero(Instruccion instruccion) {
-		if (instruccion.operando.matches("[a-zA-Z_0-9]+")) {
-			ip = (unidadMemoriaDatos.get(0) == 0) ? unidadMemoriaInstrucciones.get(instruccion.operando) : (ip + 1);
+	private void jzero(String operando) {
+		if (operando.matches("[a-zA-Z_0-9]+")) {
+			ip = (unidadMemoriaDatos.get(0) == 0) ? unidadMemoriaInstrucciones.get(operando) : (ip + 1);
 		} else {
 			throw new IllegalArgumentException("operando invalido");
 		}
 	}
 
-	private void jgtz(Instruccion instruccion) {
-		if (instruccion.operando.matches("[a-zA-Z_0-9]+")) {
-			ip = (unidadMemoriaDatos.get(0) > 0) ? unidadMemoriaInstrucciones.get(instruccion.operando) : (ip + 1);
+	private void jgtz(String operando) {
+		if (operando.matches("[a-zA-Z_0-9]+")) {
+			ip = (unidadMemoriaDatos.get(0) > 0) ? unidadMemoriaInstrucciones.get(operando) : (ip + 1);
 		} else {
 			throw new IllegalArgumentException("operando invalido");
 		}
 	}
 
-	private void read(Instruccion instruccion) {
+	private void read(String operando) {
 		int registroDondeAlmacenar;
 		int valorParaAlmacenar = unidadEntrada.get();
 
-		if (instruccion.operando.matches("[0-9]+")) {
-			registroDondeAlmacenar = Integer.valueOf(instruccion.operando);
-		} else if (instruccion.operando.matches("\\*[0-9]+")) {
-			registroDondeAlmacenar = unidadMemoriaDatos.get(Integer.valueOf(instruccion.operando.substring(1)));
+		if (operando.matches("[0-9]+")) {
+			registroDondeAlmacenar = Integer.valueOf(operando);
+		} else if (operando.matches("\\*[0-9]+")) {
+			registroDondeAlmacenar = unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1)));
 		} else {
 			throw new IllegalArgumentException("operando invalida");
 		}
@@ -226,26 +210,25 @@ public class UnidadAritmeticaControlLogica {
 		ip++;
 	}
 
-	private void write(Instruccion instruccion) {
+	private void write(String operando) {
 		int valorParaAlmacenar;
-		
-		if (instruccion.operando.matches("[0-9]+")) {
-			valorParaAlmacenar = unidadMemoriaDatos.get(Integer.valueOf(instruccion.operando));
-		} else if (instruccion.operando.matches("=[0-9]+")) {
-			valorParaAlmacenar = Integer.valueOf(instruccion.operando.substring(1));
-		} else if (instruccion.operando.matches("\\*[0-9]+")) {
-			valorParaAlmacenar = unidadMemoriaDatos
-					.get(unidadMemoriaDatos.get(Integer.valueOf(instruccion.operando.substring(1))));
+
+		if (operando.matches("[0-9]+")) {
+			valorParaAlmacenar = unidadMemoriaDatos.get(Integer.valueOf(operando));
+		} else if (operando.matches("=[0-9]+")) {
+			valorParaAlmacenar = Integer.valueOf(operando.substring(1));
+		} else if (operando.matches("\\*[0-9]+")) {
+			valorParaAlmacenar = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
 		} else {
 			throw new IllegalArgumentException("operando invalida");
 		}
-		
+
 		unidadSalida.set(valorParaAlmacenar);
 		ip++;
 	}
-	
-	private void halt(Instruccion instruccion) {
-		if (instruccion.operando == null) {
+
+	private void halt(String operando) {
+		if (operando.isEmpty()) {
 			ip = unidadMemoriaInstrucciones.getUltimaInstruccion();
 		} else {
 			throw new IllegalArgumentException("operando invalido");
@@ -264,7 +247,7 @@ public class UnidadAritmeticaControlLogica {
 //TODO: funcion para optener operador
 //TODO: agrupar instrucciones
 //TODO: tener cuidado con operadores nulos
-//TODO: cambiar instruccion por solo operador?
-//TODO: acabar programa
-//TODO: instrucciones sin instruccion, solo con etiqueta
+//TODO: cambiar instruccion por solo operador? (hecho)
+//TODO: acabar programa (de forma dudosa)
+//TODO: instrucciones sin instruccion, solo con etiqueta (hecho sin comprobar)
 //TODO: comprobacion de que la posicion de la etiqueta es correcta

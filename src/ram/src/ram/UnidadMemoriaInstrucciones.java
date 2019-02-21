@@ -47,9 +47,9 @@ public class UnidadMemoriaInstrucciones {
 				String[] token = instruccion.matches("\\s*") ? new String[0] : instruccion.trim().split("\\s+");
 
 				if (token.length != 0) {
-					String etiqueta = null;
+					String etiqueta = "";
 					InstruccionesValidas nombreInstruccion = null;
-					String operador = null;
+					String operador = "";
 
 					if (token[0].matches("[a-zA-Z_0-9]+:")) {
 						etiqueta = token[0].substring(0, token[0].length() - 1);
@@ -104,7 +104,10 @@ public class UnidadMemoriaInstrucciones {
 		if (etiqueta != null) {
 			for (int i = 0; i < instrucciones.size(); i++) {
 				if (etiqueta.equals(instrucciones.get(i).etiqueta)) {
-					return i;
+					while (i < instrucciones.size() && (instrucciones.get(i).instruccion == null)) {
+						i++;
+					}
+					return (i < instrucciones.size()) ? i : -1;
 				}
 			}
 		}

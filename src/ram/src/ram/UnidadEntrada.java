@@ -12,7 +12,8 @@ public class UnidadEntrada {
 
 	public UnidadEntrada(String archivoEntrada) {
 		cintaEntrada = new ArrayList<Integer>();
-		
+		posicion = 0;
+
 		String contenidoCintaEntrada = "";
 		try {
 			BufferedReader cintaEntrada = new BufferedReader(new FileReader(archivoEntrada));

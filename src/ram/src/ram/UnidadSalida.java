@@ -16,7 +16,7 @@ public class UnidadSalida {
 		}
 	}
 
-	public void set(int valor) { 
+	public void set(int valor) {
 		try {
 			cintaSalida.write(String.valueOf(valor));
 			cintaSalida.newLine();
