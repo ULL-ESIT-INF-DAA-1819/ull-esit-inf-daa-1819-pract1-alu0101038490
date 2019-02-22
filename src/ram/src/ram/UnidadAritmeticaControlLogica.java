@@ -235,12 +235,27 @@ public class UnidadAritmeticaControlLogica {
 		}
 	}
 
-	public void ejecutarPrograma() {
+	public void ejecutarPrograma(boolean modoDepurador) {
 		while (unidadMemoriaInstrucciones.get(ip) != null) {
 			ejecutarInstruccion(unidadMemoriaInstrucciones.get(ip));
+			if (modoDepurador) {
+				System.out.println(toString());
+			}
 		}
 		unidadSalida.cerrar();
 	}
+
+	@Override
+	public String toString() {
+		String resultado = "Registro IP: " + String.valueOf(ip) + "\n";
+		resultado += "\n" + unidadMemoriaDatos.toString();
+		resultado += "\n" + unidadMemoriaInstrucciones.toString();
+		resultado += "\n" + unidadEntrada.toString();
+		resultado += unidadSalida.toString();
+		resultado += "\n" + (new String(new char[50])).replace("\0", "-");
+		return resultado;
+	}
+
 }
 
 //TODO: poner ip en otros lados

@@ -40,4 +40,15 @@ public class UnidadEntrada {
 		posicion++;
 		return cintaEntrada.get(posicion - 1);
 	}
+
+	@Override
+	public String toString() {
+		String resultado = "Cinta de entrada: ";
+		for (int i = 0; i < cintaEntrada.size(); i++) {
+			resultado += (i == posicion) ? "*" : "";
+			resultado += cintaEntrada.get(i).toString() + " ";
+		}
+		resultado += "\n";
+		return resultado;
+	}
 }

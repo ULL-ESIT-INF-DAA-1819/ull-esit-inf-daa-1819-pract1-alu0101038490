@@ -27,6 +27,22 @@ public class UnidadMemoriaInstrucciones {
 			this.operando = operando;
 		}
 
+		@Override
+		public String toString() {
+			String resultado = "";
+
+			if (!etiqueta.isEmpty()) {
+				resultado = etiqueta + ":\t";
+				if (instruccion != null) {
+					resultado += instruccion + " " + operando;
+				}
+			} else {
+				resultado = "\t" + instruccion + " " + operando;
+			}
+
+			return resultado;
+		}
+
 	}
 
 	public UnidadMemoriaInstrucciones(String archivoInstrucciones) {
@@ -116,5 +132,16 @@ public class UnidadMemoriaInstrucciones {
 
 	public int getUltimaInstruccion() {
 		return instrucciones.size();
+	}
+
+	@Override
+	public String toString() {
+		String resultado = "";
+		Integer contador = 0;
+		for (Instruccion i : instrucciones) {
+			resultado += String.valueOf(contador) + " " + i.toString() + "\n";
+			contador++;
+		}
+		return resultado;
 	}
 }

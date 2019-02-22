@@ -6,9 +6,12 @@ public class Main {
 		UnidadAritmeticaControlLogica uacl;
 		if (args.length == 3) {
 			uacl = new UnidadAritmeticaControlLogica(args[0], args[1], args[2]);
-			uacl.ejecutarPrograma();
+			uacl.ejecutarPrograma(false);
+		} else if ((args.length == 4) && args[3].equals("debug")) {
+			uacl = new UnidadAritmeticaControlLogica(args[0], args[1], args[2]);
+			uacl.ejecutarPrograma(true);
 		} else {
-			System.out.println("Para la correcta ejecución del programa se tienen que recibir tres ficheros.");
+			System.out.println("Uso: \n\tMain códigoFuente cintaEntrada cintaSalida [debug]");
 		}
 	}
 }
