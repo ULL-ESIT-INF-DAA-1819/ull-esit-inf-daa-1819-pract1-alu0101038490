@@ -19,9 +19,8 @@ public class UnidadAritmeticaControlLogica {
 	}
 
 	private void ejecutarInstruccion(Instruccion instruccion) {
-		if (instruccion.instruccion == null) {
-			ip++;
-		} else {
+		ip++;
+		if (instruccion.instruccion != null) {
 			switch (instruccion.instruccion) {
 				case ADD:
 					add(instruccion.operando);
@@ -80,7 +79,6 @@ public class UnidadAritmeticaControlLogica {
 		}
 
 		unidadMemoriaDatos.set(0, valorRegistroCero + valorParaSumar);
-		ip++;
 	}
 
 	private void div(String operando) {
@@ -98,7 +96,6 @@ public class UnidadAritmeticaControlLogica {
 		}
 
 		unidadMemoriaDatos.set(0, valorRegistroCero / valorParaSumar);
-		ip++;
 	}
 
 	private void mul(String operando) {
@@ -116,7 +113,6 @@ public class UnidadAritmeticaControlLogica {
 		}
 
 		unidadMemoriaDatos.set(0, valorRegistroCero * valorParaSumar);
-		ip++;
 	}
 
 	private void sub(String operando) {
@@ -134,7 +130,6 @@ public class UnidadAritmeticaControlLogica {
 		}
 
 		unidadMemoriaDatos.set(0, valorRegistroCero - valorParaSumar);
-		ip++;
 	}
 
 	private void load(String operando) {
@@ -151,7 +146,6 @@ public class UnidadAritmeticaControlLogica {
 		}
 
 		unidadMemoriaDatos.set(0, valorParaCargar);
-		ip++;
 	}
 
 	private void store(String operando) {
@@ -167,12 +161,16 @@ public class UnidadAritmeticaControlLogica {
 		}
 
 		unidadMemoriaDatos.set(registroDondeAlmacenar, valorParaAlmacenar);
-		ip++;
 	}
 
 	private void jump(String operando) {
 		if (operando.matches("[a-zA-Z_0-9]+")) {
-			ip = unidadMemoriaInstrucciones.get(operando);
+			int posicionEtiqueta = unidadMemoriaInstrucciones.get(operando);
+			if (posicionEtiqueta >= 0) {
+				ip = posicionEtiqueta;
+			} else {
+				throw new IllegalArgumentException("operando invalido");
+			}
 		} else {
 			throw new IllegalArgumentException("operando invalido");
 		}
@@ -180,7 +178,14 @@ public class UnidadAritmeticaControlLogica {
 
 	private void jzero(String operando) {
 		if (operando.matches("[a-zA-Z_0-9]+")) {
-			ip = (unidadMemoriaDatos.get(0) == 0) ? unidadMemoriaInstrucciones.get(operando) : (ip + 1);
+			int posicionEtiqueta = unidadMemoriaInstrucciones.get(operando);
+			if (posicionEtiqueta >= 0) {
+				if (unidadMemoriaDatos.get(0) == 0) {
+					ip = posicionEtiqueta;
+				}
+			} else {
+				throw new IllegalArgumentException("operando invalido");
+			}
 		} else {
 			throw new IllegalArgumentException("operando invalido");
 		}
@@ -188,7 +193,14 @@ public class UnidadAritmeticaControlLogica {
 
 	private void jgtz(String operando) {
 		if (operando.matches("[a-zA-Z_0-9]+")) {
-			ip = (unidadMemoriaDatos.get(0) > 0) ? unidadMemoriaInstrucciones.get(operando) : (ip + 1);
+			int posicionEtiqueta = unidadMemoriaInstrucciones.get(operando);
+			if (posicionEtiqueta >= 0) {
+				if (unidadMemoriaDatos.get(0) > 0) {
+					ip = posicionEtiqueta;
+				}
+			} else {
+				throw new IllegalArgumentException("operando invalido");
+			}
 		} else {
 			throw new IllegalArgumentException("operando invalido");
 		}
@@ -207,7 +219,6 @@ public class UnidadAritmeticaControlLogica {
 		}
 
 		unidadMemoriaDatos.set(registroDondeAlmacenar, valorParaAlmacenar);
-		ip++;
 	}
 
 	private void write(String operando) {
@@ -224,7 +235,6 @@ public class UnidadAritmeticaControlLogica {
 		}
 
 		unidadSalida.set(valorParaAlmacenar);
-		ip++;
 	}
 
 	private void halt(String operando) {
@@ -236,6 +246,9 @@ public class UnidadAritmeticaControlLogica {
 	}
 
 	public void ejecutarPrograma(boolean modoDepurador) {
+		if (modoDepurador) {
+			System.out.println(toString());
+		}
 		while (unidadMemoriaInstrucciones.get(ip) != null) {
 			ejecutarInstruccion(unidadMemoriaInstrucciones.get(ip));
 			if (modoDepurador) {
@@ -258,11 +271,5 @@ public class UnidadAritmeticaControlLogica {
 
 }
 
-//TODO: poner ip en otros lados
-//TODO: funcion para optener operador
-//TODO: agrupar instrucciones
-//TODO: tener cuidado con operadores nulos
-//TODO: cambiar instruccion por solo operador? (hecho)
-//TODO: acabar programa (de forma dudosa)
-//TODO: instrucciones sin instruccion, solo con etiqueta (hecho sin comprobar)
-//TODO: comprobacion de que la posicion de la etiqueta es correcta
+//TODO: acabar programa (forma actual dudosa)
+//TODO: manejo de excepciones, para cerrar cinta de salida

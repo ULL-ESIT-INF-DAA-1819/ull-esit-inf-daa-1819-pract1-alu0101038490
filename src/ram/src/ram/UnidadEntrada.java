@@ -10,23 +10,23 @@ public class UnidadEntrada {
 	private ArrayList<Integer> cintaEntrada;
 	private int posicion;
 
-	public UnidadEntrada(String archivoEntrada) {
+	public UnidadEntrada(String nombreArchivoEntrada) {
 		cintaEntrada = new ArrayList<Integer>();
 		posicion = 0;
 
 		String contenidoCintaEntrada = "";
 		try {
-			BufferedReader cintaEntrada = new BufferedReader(new FileReader(archivoEntrada));
-			while (cintaEntrada.ready()) {
-				contenidoCintaEntrada += cintaEntrada.readLine() + " ";
+			BufferedReader archivoEntrada = new BufferedReader(new FileReader(nombreArchivoEntrada));
+			while (archivoEntrada.ready()) {
+				contenidoCintaEntrada += archivoEntrada.readLine() + " ";
 			}
-			cintaEntrada.close();
+			archivoEntrada.close();
 		} catch (IOException e) {
-			System.out.println("Ha habido un problema, con el fichero de entrada.");
+			System.out.println("Ha habido un problema con el fichero de entrada.");
 		}
 
-		String[] token = contenidoCintaEntrada.trim().split("\\s+");
-		for (String s : token) {
+		String[] tokens = contenidoCintaEntrada.trim().split("\\s+");
+		for (String s : tokens) {
 			if (!s.matches("\\s*")) {
 				cintaEntrada.add(Integer.valueOf(s));
 			}

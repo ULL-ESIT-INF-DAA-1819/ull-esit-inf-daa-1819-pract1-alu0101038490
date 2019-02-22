@@ -22,9 +22,9 @@ public class UnidadMemoriaInstrucciones {
 		String operando;
 
 		public Instruccion(String etiqueta, InstruccionesValidas instruccion, String operando) {
-			this.etiqueta = etiqueta;
+			this.etiqueta = (etiqueta == null) ? "" : etiqueta;
 			this.instruccion = instruccion;
-			this.operando = operando;
+			this.operando = (operando == null) ? "" : operando;
 		}
 
 		@Override
@@ -120,10 +120,7 @@ public class UnidadMemoriaInstrucciones {
 		if (etiqueta != null) {
 			for (int i = 0; i < instrucciones.size(); i++) {
 				if (etiqueta.equals(instrucciones.get(i).etiqueta)) {
-					while (i < instrucciones.size() && (instrucciones.get(i).instruccion == null)) {
-						i++;
-					}
-					return (i < instrucciones.size()) ? i : -1;
+					return i;
 				}
 			}
 		}
