@@ -258,8 +258,11 @@ public class UnidadAritmeticaControlLogica {
 			}
 
 			while (unidadMemoriaInstrucciones.get(ip) != null && (!modoDepurador || !s.nextLine().equals("q"))) {
-				ejecutarInstruccion(unidadMemoriaInstrucciones.get(ip));
-				contadorInstruccionesEjecutadas++;
+				Instruccion instruccion = unidadMemoriaInstrucciones.get(ip);
+				ejecutarInstruccion(instruccion);
+				if (instruccion.instruccion != null) {
+					contadorInstruccionesEjecutadas++;
+				}
 				if (modoDepurador) {
 					System.out.println(String.valueOf(contadorInstruccionesEjecutadas) + "ª operación ejecutada\n");
 					System.out.println(toString());
@@ -289,7 +292,6 @@ public class UnidadAritmeticaControlLogica {
 
 }
 
-//TODO: el contador de instrucciones no tiene en cuenta etiquetas sueltas
 //TODO: mejorar salida por pantalla
 //TODO: errores con instruccion y linea donde se encuentra en el programa ram
 //TODO: read/write evitan registro 0, pero y la forma indirecta?
