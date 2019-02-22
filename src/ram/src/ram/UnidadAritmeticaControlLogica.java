@@ -271,5 +271,6 @@ public class UnidadAritmeticaControlLogica {
 
 }
 
+//TODO: read/write evitan registro 0, pero y la forma indirecta?
 //TODO: acabar programa (forma actual dudosa)
 //TODO: manejo de excepciones, para cerrar cinta de salida
