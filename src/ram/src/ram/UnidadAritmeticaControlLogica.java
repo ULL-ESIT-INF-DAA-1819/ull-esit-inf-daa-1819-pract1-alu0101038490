@@ -248,27 +248,32 @@ public class UnidadAritmeticaControlLogica {
 	}
 
 	public void ejecutarPrograma(boolean modoDepurador) {
-		int contadorInstruccionesEjecutadas = 0;
-		Scanner s = new Scanner(System.in);
-		
-		if (modoDepurador) {
-			System.out.println("Estado inicial\n");
-			System.out.println(toString());
-		}
-		
-		while (unidadMemoriaInstrucciones.get(ip) != null && !s.nextLine().equals("q")) {
-			ejecutarInstruccion(unidadMemoriaInstrucciones.get(ip));
-			contadorInstruccionesEjecutadas++;
+		try {
+			int contadorInstruccionesEjecutadas = 0;
+			Scanner s = new Scanner(System.in);
+
 			if (modoDepurador) {
-				System.out.println(String.valueOf(contadorInstruccionesEjecutadas) + "ª operación ejecutada\n");
+				System.out.println("Estado inicial\n");
 				System.out.println(toString());
 			}
+
+			while (unidadMemoriaInstrucciones.get(ip) != null && (!modoDepurador || !s.nextLine().equals("q"))) {
+				ejecutarInstruccion(unidadMemoriaInstrucciones.get(ip));
+				contadorInstruccionesEjecutadas++;
+				if (modoDepurador) {
+					System.out.println(String.valueOf(contadorInstruccionesEjecutadas) + "ª operación ejecutada\n");
+					System.out.println(toString());
+				}
+			}
+
+			System.out
+					.println("\nOperaciones ejecutadas en total = " + String.valueOf(contadorInstruccionesEjecutadas));
+			s.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			unidadSalida.cerrar();
 		}
-		
-		System.out.println("\nOperaciones ejecutadas en total = " + String.valueOf(contadorInstruccionesEjecutadas));
-		
-		s.close();
-		unidadSalida.cerrar();
 	}
 
 	@Override
@@ -286,5 +291,3 @@ public class UnidadAritmeticaControlLogica {
 
 //TODO: errores con instruccion y linea donde se encuentra en el programa ram
 //TODO: read/write evitan registro 0, pero y la forma indirecta?
-//TODO: acabar programa (forma actual dudosa)
-//TODO: manejo de excepciones, para cerrar cinta de salida
