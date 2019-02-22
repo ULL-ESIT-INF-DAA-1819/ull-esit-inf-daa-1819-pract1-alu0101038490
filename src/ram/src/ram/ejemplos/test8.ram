@@ -1,27 +1,26 @@
-        read 1
-        read 2
-
+        read 1 # el primer valor de la cinta de entrada es x
+        read 2 # el segundo valor de la cinta de entrada es y
         load =1
-        store 3
+        store 3 # se guarda en el registro 3 el resultado
 
         load 2
-        jzero fin
+        jzero fin # si el exponente es 0 se acabará el programa con resultado 1
 
-        jgtz inicio
-        write =1
+        jgtz bucle # si el exponente es mayor que 0 se ejecutará el algoritmo
+        
+        write =1 # si el exponente es menor que 0 se escribirán dos números como símbolo de error
         jump fin
-inicio:	
-        load 3
+bucle:	
+        load 3 # se multiplica el registro 3 por la base de la potencia 
         mul 1
         store 3
 
-        load 2
+        load 2 # se reduce el valor del exponente
         sub =1
         store 2
 
-        jgtz inicio
+        jgtz bucle # si el exponente sigue siendo mayor que cero se hará otra iteración
 
 fin:
-        load 3
-	write 3
-        halt
+		write 3 # para terminar se escribe el resultado en la cinta de salida
+        halt        

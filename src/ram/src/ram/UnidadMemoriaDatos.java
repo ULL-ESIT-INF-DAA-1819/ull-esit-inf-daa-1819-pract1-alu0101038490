@@ -11,12 +11,12 @@ public class UnidadMemoriaDatos {
 		this.datos = new TreeMap<Integer, Integer>();
 	}
 
-	public Integer get(int pos) {
+	public Integer get(Integer pos) {
 		Integer resultado = datos.get(pos);
 		return (resultado == null) ? 0 : resultado;
 	}
 
-	public void set(int pos, Integer dato) {
+	public void set(Integer pos, Integer dato) {
 		datos.put(pos, dato);
 	}
 
@@ -26,6 +26,7 @@ public class UnidadMemoriaDatos {
 		for (Map.Entry<Integer, Integer> i : datos.entrySet()) {
 			resultado += "   " + i.getKey().toString() + ": " + i.getValue().toString() + "\n";
 		}
+		
 		return resultado;
 	}
 }

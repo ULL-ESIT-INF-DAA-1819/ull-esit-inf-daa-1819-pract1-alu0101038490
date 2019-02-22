@@ -21,14 +21,14 @@ public class UnidadSalida {
 
 	public void cerrar() {
 		try {
-			BufferedWriter cintaSalida = new BufferedWriter(new FileWriter(nombreArchivoSalida));
-			for (Integer i : this.cintaSalida) {
-				cintaSalida.write(String.valueOf(i));
-				cintaSalida.newLine();
+			BufferedWriter archivoSalida = new BufferedWriter(new FileWriter(nombreArchivoSalida));
+			for (Integer i : cintaSalida) {
+				archivoSalida.write(String.valueOf(i));
+				archivoSalida.newLine();
 			}
-			cintaSalida.close();
+			archivoSalida.close();
 		} catch (IOException e) {
-			System.out.println("Ha habido un problema, con el fichero de salida.");
+			throw new IllegalArgumentException("Ha habido un problema, con el fichero de salida.");
 		}
 	}
 
@@ -39,6 +39,7 @@ public class UnidadSalida {
 			resultado += i.toString() + " ";
 		}
 		resultado += "\n";
+
 		return resultado;
 	}
 }

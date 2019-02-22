@@ -11,25 +11,28 @@ public class UnidadEntrada {
 	private int posicion;
 
 	public UnidadEntrada(String nombreArchivoEntrada) {
-		cintaEntrada = new ArrayList<Integer>();
-		posicion = 0;
+		this.cintaEntrada = new ArrayList<Integer>();
+		this.posicion = 0;
 
-		String contenidoCintaEntrada = "";
 		try {
+			String contenidoCintaEntrada = "";
+
 			BufferedReader archivoEntrada = new BufferedReader(new FileReader(nombreArchivoEntrada));
 			while (archivoEntrada.ready()) {
 				contenidoCintaEntrada += archivoEntrada.readLine() + " ";
 			}
 			archivoEntrada.close();
-		} catch (IOException e) {
-			System.out.println("Ha habido un problema con el fichero de entrada.");
-		}
 
-		String[] tokens = contenidoCintaEntrada.trim().split("\\s+");
-		for (String s : tokens) {
-			if (!s.matches("\\s*")) {
-				cintaEntrada.add(Integer.valueOf(s));
+			String[] tokens = contenidoCintaEntrada.trim().split("\\s+");
+			for (String s : tokens) {
+				if (!s.matches("\\s*")) {
+					this.cintaEntrada.add(Integer.valueOf(s));
+				}
 			}
+		} catch (IOException e) {
+			throw new IllegalArgumentException("Ha habido un problema con el fichero de entrada.");
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException("Hay valores en la cinta de entrada no válidos.");
 		}
 	}
 
@@ -49,6 +52,7 @@ public class UnidadEntrada {
 			resultado += cintaEntrada.get(i).toString() + " ";
 		}
 		resultado += "\n";
+
 		return resultado;
 	}
 }
