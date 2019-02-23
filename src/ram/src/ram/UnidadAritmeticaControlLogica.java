@@ -2,8 +2,6 @@ package ram;
 
 import java.util.Scanner;
 
-import ram.UnidadMemoriaInstrucciones.Instruccion;
-
 public class UnidadAritmeticaControlLogica {
 
 	private int ip;
@@ -22,43 +20,43 @@ public class UnidadAritmeticaControlLogica {
 
 	private void ejecutarInstruccion(Instruccion instruccion) {
 		ip++;
-		if (instruccion.instruccion != null) {
-			switch (instruccion.instruccion) {
+		if (instruccion.getNombreInstruccion() != null) {
+			switch (instruccion.getNombreInstruccion()) {
 				case ADD:
-					add(instruccion.operando);
+					add(instruccion.getOperando());
 					break;
 				case DIV:
-					div(instruccion.operando);
+					div(instruccion.getOperando());
 					break;
 				case HALT:
-					halt(instruccion.operando);
+					halt(instruccion.getOperando());
 					break;
 				case JGTZ:
-					jgtz(instruccion.operando);
+					jgtz(instruccion.getOperando());
 					break;
 				case JUMP:
-					jump(instruccion.operando);
+					jump(instruccion.getOperando());
 					break;
 				case JZERO:
-					jzero(instruccion.operando);
+					jzero(instruccion.getOperando());
 					break;
 				case LOAD:
-					load(instruccion.operando);
+					load(instruccion.getOperando());
 					break;
 				case MUL:
-					mul(instruccion.operando);
+					mul(instruccion.getOperando());
 					break;
 				case READ:
-					read(instruccion.operando);
+					read(instruccion.getOperando());
 					break;
 				case STORE:
-					store(instruccion.operando);
+					store(instruccion.getOperando());
 					break;
 				case SUB:
-					sub(instruccion.operando);
+					sub(instruccion.getOperando());
 					break;
 				case WRITE:
-					write(instruccion.operando);
+					write(instruccion.getOperando());
 					break;
 				default:
 					throw new IllegalArgumentException("Instrucción no encontrada.");
@@ -85,53 +83,54 @@ public class UnidadAritmeticaControlLogica {
 
 	private void div(String operando) {
 		int valorRegistroCero = unidadMemoriaDatos.get(0);
-		int valorParaSumar = 0;
+		int divisor = 0;
 
 		if (operando.matches("[0-9]+")) {
-			valorParaSumar = unidadMemoriaDatos.get(Integer.valueOf(operando));
+			divisor = unidadMemoriaDatos.get(Integer.valueOf(operando));
 		} else if (operando.matches("=[0-9]+")) {
-			valorParaSumar = Integer.valueOf(operando.substring(1));
+			divisor = Integer.valueOf(operando.substring(1));
 		} else if (operando.matches("\\*[0-9]+")) {
-			valorParaSumar = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
+			divisor = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
 		} else {
 			throw new IllegalArgumentException("operando invalida");
 		}
 
-		unidadMemoriaDatos.set(0, valorRegistroCero / valorParaSumar);
+		unidadMemoriaDatos.set(0, valorRegistroCero / divisor);
 	}
 
 	private void mul(String operando) {
 		int valorRegistroCero = unidadMemoriaDatos.get(0);
-		int valorParaSumar = 0;
+		int valorParaMultiplicar = 0;
 
 		if (operando.matches("[0-9]+")) {
-			valorParaSumar = unidadMemoriaDatos.get(Integer.valueOf(operando));
+			valorParaMultiplicar = unidadMemoriaDatos.get(Integer.valueOf(operando));
 		} else if (operando.matches("=[0-9]+")) {
-			valorParaSumar = Integer.valueOf(operando.substring(1));
+			valorParaMultiplicar = Integer.valueOf(operando.substring(1));
 		} else if (operando.matches("\\*[0-9]+")) {
-			valorParaSumar = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
+			valorParaMultiplicar = unidadMemoriaDatos
+					.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
 		} else {
 			throw new IllegalArgumentException("operando invalida");
 		}
 
-		unidadMemoriaDatos.set(0, valorRegistroCero * valorParaSumar);
+		unidadMemoriaDatos.set(0, valorRegistroCero * valorParaMultiplicar);
 	}
 
 	private void sub(String operando) {
 		int valorRegistroCero = unidadMemoriaDatos.get(0);
-		int valorParaSumar = 0;
+		int valorParaRestar = 0;
 
 		if (operando.matches("[0-9]+")) {
-			valorParaSumar = unidadMemoriaDatos.get(Integer.valueOf(operando));
+			valorParaRestar = unidadMemoriaDatos.get(Integer.valueOf(operando));
 		} else if (operando.matches("=[0-9]+")) {
-			valorParaSumar = Integer.valueOf(operando.substring(1));
+			valorParaRestar = Integer.valueOf(operando.substring(1));
 		} else if (operando.matches("\\*[0-9]+")) {
-			valorParaSumar = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
+			valorParaRestar = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
 		} else {
 			throw new IllegalArgumentException("operando invalida");
 		}
 
-		unidadMemoriaDatos.set(0, valorRegistroCero - valorParaSumar);
+		unidadMemoriaDatos.set(0, valorRegistroCero - valorParaRestar);
 	}
 
 	private void load(String operando) {
@@ -166,8 +165,8 @@ public class UnidadAritmeticaControlLogica {
 	}
 
 	private void jump(String operando) {
-		if (operando.matches("[a-zA-Z_0-9]+")) {
-			int posicionEtiqueta = unidadMemoriaInstrucciones.get(operando);
+		if (operando.matches("[a-zA-Z][a-zA-Z_0-9]*")) {
+			int posicionEtiqueta = unidadMemoriaInstrucciones.posicionEtiqueta(operando);
 			if (posicionEtiqueta >= 0) {
 				ip = posicionEtiqueta;
 			} else {
@@ -179,8 +178,8 @@ public class UnidadAritmeticaControlLogica {
 	}
 
 	private void jzero(String operando) {
-		if (operando.matches("[a-zA-Z_0-9]+")) {
-			int posicionEtiqueta = unidadMemoriaInstrucciones.get(operando);
+		if (operando.matches("[a-zA-Z][a-zA-Z_0-9]*")) {
+			int posicionEtiqueta = unidadMemoriaInstrucciones.posicionEtiqueta(operando);
 			if (posicionEtiqueta >= 0) {
 				if (unidadMemoriaDatos.get(0) == 0) {
 					ip = posicionEtiqueta;
@@ -194,8 +193,8 @@ public class UnidadAritmeticaControlLogica {
 	}
 
 	private void jgtz(String operando) {
-		if (operando.matches("[a-zA-Z_0-9]+")) {
-			int posicionEtiqueta = unidadMemoriaInstrucciones.get(operando);
+		if (operando.matches("[a-zA-Z][a-zA-Z_0-9]*")) {
+			int posicionEtiqueta = unidadMemoriaInstrucciones.posicionEtiqueta(operando);
 			if (posicionEtiqueta >= 0) {
 				if (unidadMemoriaDatos.get(0) > 0) {
 					ip = posicionEtiqueta;
@@ -248,7 +247,7 @@ public class UnidadAritmeticaControlLogica {
 
 	private void halt(String operando) {
 		if (operando.isEmpty()) {
-			ip = unidadMemoriaInstrucciones.getUltimaInstruccion();
+			ip = unidadMemoriaInstrucciones.ultimaInstruccion();
 		} else {
 			throw new IllegalArgumentException("operando invalido");
 		}
@@ -257,19 +256,21 @@ public class UnidadAritmeticaControlLogica {
 	public void ejecutarPrograma(boolean modoDepurador) {
 		try {
 			int contadorInstruccionesEjecutadas = 0;
-			Scanner s = new Scanner(System.in);
+			Scanner input = new Scanner(System.in);
 
 			if (modoDepurador) {
 				System.out.println("Estado inicial\n");
 				System.out.println(toString());
 			}
 
-			while (unidadMemoriaInstrucciones.get(ip) != null && (!modoDepurador || !s.nextLine().equals("q"))) {
+			while (unidadMemoriaInstrucciones.get(ip) != null && (!modoDepurador || !input.nextLine().equals("q"))) {
 				Instruccion instruccion = unidadMemoriaInstrucciones.get(ip);
 				ejecutarInstruccion(instruccion);
-				if (instruccion.instruccion != null) {
+
+				if (instruccion.getNombreInstruccion() != null) {
 					contadorInstruccionesEjecutadas++;
 				}
+
 				if (modoDepurador) {
 					System.out.println(String.valueOf(contadorInstruccionesEjecutadas) + "ª operación ejecutada\n");
 					System.out.println(toString());
@@ -278,7 +279,7 @@ public class UnidadAritmeticaControlLogica {
 
 			System.out
 					.println("\nOperaciones ejecutadas en total = " + String.valueOf(contadorInstruccionesEjecutadas));
-			s.close();
+			input.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {

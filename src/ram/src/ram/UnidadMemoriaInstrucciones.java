@@ -11,40 +11,6 @@ public class UnidadMemoriaInstrucciones {
 
 	private ArrayList<Instruccion> instrucciones;
 
-	enum InstruccionesValidas {
-		LOAD, STORE, ADD, SUB, MUL, DIV, READ, WRITE, JUMP, JZERO, JGTZ, HALT
-	}
-
-	class Instruccion {
-
-		String etiqueta;
-		InstruccionesValidas instruccion;
-		String operando;
-
-		public Instruccion(String etiqueta, InstruccionesValidas instruccion, String operando) {
-			this.etiqueta = (etiqueta == null) ? "" : etiqueta;
-			this.instruccion = instruccion;
-			this.operando = (operando == null) ? "" : operando;
-		}
-
-		@Override
-		public String toString() {
-			String resultado = "";
-
-			if (!etiqueta.isEmpty()) {
-				resultado = etiqueta + ":\t";
-				if (instruccion != null) {
-					resultado += instruccion + " " + operando;
-				}
-			} else {
-				resultado = "\t" + instruccion + " " + operando;
-			}
-
-			return resultado;
-		}
-
-	}
-
 	public UnidadMemoriaInstrucciones(String archivoInstrucciones) {
 		this.instrucciones = new ArrayList<>();
 
@@ -54,28 +20,28 @@ public class UnidadMemoriaInstrucciones {
 			while (bufferInstrucciones.ready()) {
 				String instruccion = bufferInstrucciones.readLine();
 
-				Pattern expresionRegular = Pattern.compile("#");
-				Matcher encuentro = expresionRegular.matcher(instruccion);
-				if (encuentro.find()) {
-					instruccion = instruccion.substring(0, encuentro.start());
+				Pattern expresionRegularComentario = Pattern.compile("#");
+				Matcher encuentroComentario = expresionRegularComentario.matcher(instruccion);
+				if (encuentroComentario.find()) {
+					instruccion = instruccion.substring(0, encuentroComentario.start());
 				}
 
-				String[] token = instruccion.matches("\\s*") ? new String[0] : instruccion.trim().split("\\s+");
+				String[] tokens = instruccion.matches("\\s*") ? new String[0] : instruccion.trim().split("\\s+");
 
-				if (token.length != 0) {
+				if (tokens.length != 0) {
 					String etiqueta = "";
 					InstruccionesValidas nombreInstruccion = null;
 					String operador = "";
 
-					if (token[0].matches("[a-zA-Z_0-9]+:")) {
-						etiqueta = token[0].substring(0, token[0].length() - 1);
+					if (tokens[0].matches("[a-zA-Z][a-zA-Z_0-9]*:")) {
+						etiqueta = tokens[0].substring(0, tokens[0].length() - 1);
 
-						if (token.length > 1) {
+						if (tokens.length > 1) {
 							try {
-								nombreInstruccion = InstruccionesValidas.valueOf(token[1].toUpperCase());
-								if (token.length > 2) {
-									if (token.length == 3 && token[2].matches("([=*]?[0-9]+)|([a-zA-Z_0-9]+)")) {
-										operador = token[2];
+								nombreInstruccion = InstruccionesValidas.valueOf(tokens[1].toUpperCase());
+								if (tokens.length > 2) {
+									if (tokens.length == 3 && tokens[2].matches("([=*]?[0-9]+)|([a-zA-Z][a-zA-Z_0-9]*)")) {
+										operador = tokens[2];
 									} else {
 										throw new IllegalArgumentException("Instrucción " + instruccion + " no válida");
 									}
@@ -86,10 +52,10 @@ public class UnidadMemoriaInstrucciones {
 						}
 					} else {
 						try {
-							nombreInstruccion = InstruccionesValidas.valueOf(token[0].toUpperCase());
-							if (token.length > 1) {
-								if (token.length == 2 && token[1].matches("([=*]?[0-9]+)|([a-zA-Z_0-9]+)")) {
-									operador = token[1];
+							nombreInstruccion = InstruccionesValidas.valueOf(tokens[0].toUpperCase());
+							if (tokens.length > 1) {
+								if (tokens.length == 2 && tokens[1].matches("([=*]?[0-9]+)|([a-zA-Z][a-zA-Z_0-9]*)")) {
+									operador = tokens[1];
 								} else {
 									throw new IllegalArgumentException("Instrucción " + instruccion + " no válida");
 								}
@@ -116,10 +82,10 @@ public class UnidadMemoriaInstrucciones {
 		return null;
 	}
 
-	public int get(String etiqueta) {
+	public int posicionEtiqueta(String etiqueta) {
 		if (etiqueta != null) {
 			for (int i = 0; i < instrucciones.size(); i++) {
-				if (etiqueta.equals(instrucciones.get(i).etiqueta)) {
+				if (etiqueta.equals(instrucciones.get(i).getEtiqueta())) {
 					return i;
 				}
 			}
@@ -127,7 +93,7 @@ public class UnidadMemoriaInstrucciones {
 		return -1;
 	}
 
-	public int getUltimaInstruccion() {
+	public int ultimaInstruccion() {
 		return instrucciones.size();
 	}
 
