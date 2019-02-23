@@ -220,18 +220,25 @@ public class UnidadAritmeticaControlLogica {
 			throw new IllegalArgumentException("operando invalida");
 		}
 
+		if (registroDondeAlmacenar == 0) {
+			throw new IllegalArgumentException("operando invalida");
+		}
 		unidadMemoriaDatos.set(registroDondeAlmacenar, valorParaAlmacenar);
 	}
 
 	private void write(String operando) {
 		int valorParaAlmacenar;
 
-		if (operando.matches("[0-9]+")) {
+		if (operando.matches("[1-9]+")) {
 			valorParaAlmacenar = unidadMemoriaDatos.get(Integer.valueOf(operando));
 		} else if (operando.matches("=[0-9]+")) {
 			valorParaAlmacenar = Integer.valueOf(operando.substring(1));
 		} else if (operando.matches("\\*[0-9]+")) {
-			valorParaAlmacenar = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
+			int registroApuntado = unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1)));
+			if (registroApuntado == 0) {
+				throw new IllegalArgumentException("operando invalida");
+			}
+			valorParaAlmacenar = unidadMemoriaDatos.get(registroApuntado);
 		} else {
 			throw new IllegalArgumentException("operando invalida");
 		}
