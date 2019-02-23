@@ -99,10 +99,10 @@ public class UnidadMemoriaInstrucciones {
 
 	@Override
 	public String toString() {
-		String resultado = "";
+		String resultado = "Instrucciones: \n";
 		Integer contador = 0;
 		for (Instruccion i : instrucciones) {
-			resultado += String.valueOf(contador) + " " + i.toString() + "\n";
+			resultado += "   " + String.valueOf(contador) + " " + i.toString() + "\n";
 			contador++;
 		}
 		return resultado;

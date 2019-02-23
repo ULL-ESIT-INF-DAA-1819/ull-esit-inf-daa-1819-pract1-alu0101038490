@@ -300,6 +300,4 @@ public class UnidadAritmeticaControlLogica {
 
 }
 
-//TODO: mejorar salida por pantalla
 //TODO: errores con instruccion y linea donde se encuentra en el programa ram
-//TODO: read/write evitan registro 0, pero y la forma indirecta?
