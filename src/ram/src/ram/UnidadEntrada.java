@@ -10,10 +10,11 @@ public class UnidadEntrada {
 	private ArrayList<Integer> cintaEntrada;
 	private int posicion;
 
-	public UnidadEntrada(String nombreArchivoEntrada) {
+	public UnidadEntrada(String nombreArchivoEntrada) throws IOException {
 		this.cintaEntrada = new ArrayList<Integer>();
 		this.posicion = 0;
 
+		String elementoParaParsear = "";
 		try {
 			String contenidoCintaEntrada = "";
 
@@ -26,19 +27,20 @@ public class UnidadEntrada {
 			String[] tokens = contenidoCintaEntrada.trim().split("\\s+");
 			for (String s : tokens) {
 				if (!s.matches("\\s*")) {
+					elementoParaParsear = s;
 					this.cintaEntrada.add(Integer.valueOf(s));
 				}
 			}
 		} catch (IOException e) {
-			throw new IllegalArgumentException("Ha habido un problema con el fichero de entrada.");
+			throw new IOException("Ha habido un problema con el fichero de entrada.");
 		} catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException("Hay valores en la cinta de entrada no válidos.");
+			throw new IllegalArgumentException("El elemento " + elementoParaParsear + " de la cinta de entrada no es válido.");
 		}
 	}
 
 	public Integer get() {
 		if (posicion >= cintaEntrada.size()) {
-			throw new IllegalStateException("La cinta de entrada no tiene más valores.");
+			throw new IllegalStateException("la cinta de entrada no tiene más valores.");
 		}
 		posicion++;
 		return cintaEntrada.get(posicion - 1);

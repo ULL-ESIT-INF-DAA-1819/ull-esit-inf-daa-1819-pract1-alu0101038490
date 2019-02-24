@@ -1,5 +1,6 @@
 package ram;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class UnidadAritmeticaControlLogica {
@@ -10,7 +11,7 @@ public class UnidadAritmeticaControlLogica {
 	private UnidadMemoriaDatos unidadMemoriaDatos;
 	private UnidadMemoriaInstrucciones unidadMemoriaInstrucciones;
 
-	public UnidadAritmeticaControlLogica(String archivoInstrucciones, String archivoEntrada, String archivoSalida) {
+	public UnidadAritmeticaControlLogica(String archivoInstrucciones, String archivoEntrada, String archivoSalida) throws IOException {
 		this.ip = 0;
 		this.unidadEntrada = new UnidadEntrada(archivoEntrada);
 		this.unidadSalida = new UnidadSalida(archivoSalida);
@@ -59,7 +60,7 @@ public class UnidadAritmeticaControlLogica {
 					write(instruccion.getOperando());
 					break;
 				default:
-					throw new IllegalArgumentException("Instrucción no encontrada.");
+					throw new IllegalArgumentException("nombre de instrucción no encontrada");
 			}
 		}
 	}
@@ -75,7 +76,7 @@ public class UnidadAritmeticaControlLogica {
 		} else if (operando.matches("\\*[0-9]+")) {
 			valorParaSumar = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
 		} else {
-			throw new IllegalArgumentException("operando invalida");
+			throw new IllegalArgumentException("operando no válido para esta instrucción");
 		}
 
 		unidadMemoriaDatos.set(0, valorRegistroCero + valorParaSumar);
@@ -92,7 +93,7 @@ public class UnidadAritmeticaControlLogica {
 		} else if (operando.matches("\\*[0-9]+")) {
 			divisor = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
 		} else {
-			throw new IllegalArgumentException("operando invalida");
+			throw new IllegalArgumentException("operando no válido para esta instrucción");
 		}
 
 		unidadMemoriaDatos.set(0, valorRegistroCero / divisor);
@@ -110,7 +111,7 @@ public class UnidadAritmeticaControlLogica {
 			valorParaMultiplicar = unidadMemoriaDatos
 					.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
 		} else {
-			throw new IllegalArgumentException("operando invalida");
+			throw new IllegalArgumentException("operando no válido para esta instrucción");
 		}
 
 		unidadMemoriaDatos.set(0, valorRegistroCero * valorParaMultiplicar);
@@ -127,7 +128,7 @@ public class UnidadAritmeticaControlLogica {
 		} else if (operando.matches("\\*[0-9]+")) {
 			valorParaRestar = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
 		} else {
-			throw new IllegalArgumentException("operando invalida");
+			throw new IllegalArgumentException("operando no válido para esta instrucción");
 		}
 
 		unidadMemoriaDatos.set(0, valorRegistroCero - valorParaRestar);
@@ -143,7 +144,7 @@ public class UnidadAritmeticaControlLogica {
 		} else if (operando.matches("\\*[0-9]+")) {
 			valorParaCargar = unidadMemoriaDatos.get(unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1))));
 		} else {
-			throw new IllegalArgumentException("operando invalida");
+			throw new IllegalArgumentException("operando no válido para esta instrucción");
 		}
 
 		unidadMemoriaDatos.set(0, valorParaCargar);
@@ -158,7 +159,7 @@ public class UnidadAritmeticaControlLogica {
 		} else if (operando.matches("\\*[0-9]+")) {
 			registroDondeAlmacenar = unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1)));
 		} else {
-			throw new IllegalArgumentException("operando invalida");
+			throw new IllegalArgumentException("operando no válido para esta instrucción");
 		}
 
 		unidadMemoriaDatos.set(registroDondeAlmacenar, valorParaAlmacenar);
@@ -170,10 +171,10 @@ public class UnidadAritmeticaControlLogica {
 			if (posicionEtiqueta >= 0) {
 				ip = posicionEtiqueta;
 			} else {
-				throw new IllegalArgumentException("operando invalido");
+				throw new IllegalArgumentException("no se ha encontrado la etiqueta en el programa");
 			}
 		} else {
-			throw new IllegalArgumentException("operando invalido");
+			throw new IllegalArgumentException("operando no válido para esta instrucción");
 		}
 	}
 
@@ -185,10 +186,10 @@ public class UnidadAritmeticaControlLogica {
 					ip = posicionEtiqueta;
 				}
 			} else {
-				throw new IllegalArgumentException("operando invalido");
+				throw new IllegalArgumentException("no se ha encontrado la etiqueta en el programa");
 			}
 		} else {
-			throw new IllegalArgumentException("operando invalido");
+			throw new IllegalArgumentException("operando no válido para esta instrucción");
 		}
 	}
 
@@ -200,10 +201,10 @@ public class UnidadAritmeticaControlLogica {
 					ip = posicionEtiqueta;
 				}
 			} else {
-				throw new IllegalArgumentException("operando invalido");
+				throw new IllegalArgumentException("no se ha encontrado la etiqueta en el programa");
 			}
 		} else {
-			throw new IllegalArgumentException("operando invalido");
+			throw new IllegalArgumentException("operando no válido para esta instrucción");
 		}
 	}
 
@@ -216,11 +217,11 @@ public class UnidadAritmeticaControlLogica {
 		} else if (operando.matches("\\*[0-9]+")) {
 			registroDondeAlmacenar = unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1)));
 		} else {
-			throw new IllegalArgumentException("operando invalida");
+			throw new IllegalArgumentException("operando no válido para esta instrucción");
 		}
 
 		if (registroDondeAlmacenar == 0) {
-			throw new IllegalArgumentException("operando invalida");
+			throw new IllegalArgumentException("no se puede usar el registro 0 en está instrucción");
 		}
 		unidadMemoriaDatos.set(registroDondeAlmacenar, valorParaAlmacenar);
 	}
@@ -228,18 +229,22 @@ public class UnidadAritmeticaControlLogica {
 	private void write(String operando) {
 		int valorParaAlmacenar;
 
-		if (operando.matches("[1-9]+")) {
-			valorParaAlmacenar = unidadMemoriaDatos.get(Integer.valueOf(operando));
+		if (operando.matches("[0-9]+")) {
+			int registroApuntado = Integer.valueOf(operando);
+			if (registroApuntado == 0) {
+				throw new IllegalArgumentException("no se puede usar el registro 0 en está instrucción");
+			}
+			valorParaAlmacenar = unidadMemoriaDatos.get(registroApuntado);
 		} else if (operando.matches("=[0-9]+")) {
 			valorParaAlmacenar = Integer.valueOf(operando.substring(1));
 		} else if (operando.matches("\\*[0-9]+")) {
 			int registroApuntado = unidadMemoriaDatos.get(Integer.valueOf(operando.substring(1)));
 			if (registroApuntado == 0) {
-				throw new IllegalArgumentException("operando invalida");
+				throw new IllegalArgumentException("no se puede usar el registro 0 en está instrucción");
 			}
 			valorParaAlmacenar = unidadMemoriaDatos.get(registroApuntado);
 		} else {
-			throw new IllegalArgumentException("operando invalida");
+			throw new IllegalArgumentException("operando no válido para esta instrucción");
 		}
 
 		unidadSalida.set(valorParaAlmacenar);
@@ -249,11 +254,13 @@ public class UnidadAritmeticaControlLogica {
 		if (operando.isEmpty()) {
 			ip = unidadMemoriaInstrucciones.ultimaInstruccion();
 		} else {
-			throw new IllegalArgumentException("operando invalido");
+			throw new IllegalArgumentException("operando no válido para esta instrucción");
 		}
 	}
 
 	public void ejecutarPrograma(boolean modoDepurador) {
+		int ultimaIpEjecutada = 0;
+
 		try {
 			int contadorInstruccionesEjecutadas = 0;
 			Scanner input = new Scanner(System.in);
@@ -265,6 +272,7 @@ public class UnidadAritmeticaControlLogica {
 
 			while (unidadMemoriaInstrucciones.get(ip) != null && (!modoDepurador || !input.nextLine().equals("q"))) {
 				Instruccion instruccion = unidadMemoriaInstrucciones.get(ip);
+				ultimaIpEjecutada = ip;
 				ejecutarInstruccion(instruccion);
 
 				if (instruccion.getNombreInstruccion() != null) {
@@ -281,7 +289,9 @@ public class UnidadAritmeticaControlLogica {
 					.println("\nOperaciones ejecutadas en total = " + String.valueOf(contadorInstruccionesEjecutadas));
 			input.close();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			unidadSalida.cerrar();
+			System.out.println("Error en la instrucción " + ultimaIpEjecutada + ": '"
+					+ unidadMemoriaInstrucciones.get(ultimaIpEjecutada).toString().replaceAll("\\s+", " ") + "', " + e.getMessage());
 		} finally {
 			unidadSalida.cerrar();
 		}
@@ -300,4 +310,6 @@ public class UnidadAritmeticaControlLogica {
 
 }
 
+//TODO: eficiencia cintas
+//TODO: no funciona sistema para mantener cinta de salida al final de ejecucion 
 //TODO: errores con instruccion y linea donde se encuentra en el programa ram

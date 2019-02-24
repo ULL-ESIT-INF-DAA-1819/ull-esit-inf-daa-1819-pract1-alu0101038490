@@ -11,7 +11,7 @@ public class UnidadMemoriaInstrucciones {
 
 	private ArrayList<Instruccion> instrucciones;
 
-	public UnidadMemoriaInstrucciones(String archivoInstrucciones) {
+	public UnidadMemoriaInstrucciones(String archivoInstrucciones) throws IOException {
 		this.instrucciones = new ArrayList<>();
 
 		try {
@@ -39,29 +39,49 @@ public class UnidadMemoriaInstrucciones {
 						if (tokens.length > 1) {
 							try {
 								nombreInstruccion = InstruccionesValidas.valueOf(tokens[1].toUpperCase());
-								if (tokens.length > 2) {
-									if (tokens.length == 3 && tokens[2].matches("([=*]?[0-9]+)|([a-zA-Z][a-zA-Z_0-9]*)")) {
+							} catch (IllegalArgumentException e) {
+								throw new IllegalArgumentException("Error en la instrucción " + instrucciones.size()
+										+ ": '" + instruccion.replaceAll("\\s+", " ")
+										+ "', el nombre de la instrucción no se ha encontrado.");
+							}
+							if (tokens.length > 2) {
+								if (tokens.length == 3) {
+									if (tokens[2].matches("([=*]?[0-9]+)|([a-zA-Z][a-zA-Z_0-9]*)")) {
 										operador = tokens[2];
 									} else {
-										throw new IllegalArgumentException("Instrucción " + instruccion + " no válida");
+										throw new IllegalArgumentException("Error en la instrucción "
+												+ instrucciones.size() + ": '" + instruccion.replaceAll("\\s+", " ")
+												+ "', operando no corresponde con ningún tipo aceptado.");
 									}
+								} else {
+									throw new IllegalArgumentException("Error en la instrucción " + instrucciones.size()
+											+ ": '" + instruccion.replaceAll("\\s+", " ")
+											+ "', más palabras de las esperadas.");
 								}
-							} catch (IllegalArgumentException e) {
-								throw new IllegalArgumentException("Instrucción " + instruccion + " no válida");
 							}
 						}
 					} else {
 						try {
 							nombreInstruccion = InstruccionesValidas.valueOf(tokens[0].toUpperCase());
-							if (tokens.length > 1) {
-								if (tokens.length == 2 && tokens[1].matches("([=*]?[0-9]+)|([a-zA-Z][a-zA-Z_0-9]*)")) {
+						} catch (IllegalArgumentException e) {
+							throw new IllegalArgumentException("Error en la instrucción " + instrucciones.size() + ": '"
+									+ instruccion.replaceAll("\\s+", " ")
+									+ "', el nombre de la instrucción no se ha encontrado.");
+						}
+						if (tokens.length > 1) {
+							if (tokens.length == 2) {
+								if (tokens[1].matches("([=*]?[0-9]+)|([a-zA-Z][a-zA-Z_0-9]*)")) {
 									operador = tokens[1];
 								} else {
-									throw new IllegalArgumentException("Instrucción " + instruccion + " no válida");
+									throw new IllegalArgumentException("Error en la instrucción " + instrucciones.size()
+											+ ": '" + instruccion.replaceAll("\\s+", " ")
+											+ "', operando no corresponde con ningún tipo aceptado.");
 								}
+							} else {
+								throw new IllegalArgumentException("Error en la instrucción " + instrucciones.size()
+										+ ": '" + instruccion.replaceAll("\\s+", " ")
+										+ "', más palabras de las esperadas.");
 							}
-						} catch (IllegalArgumentException e) {
-							throw new IllegalArgumentException("Instrucción " + instruccion + " no válida");
 						}
 					}
 
@@ -71,7 +91,7 @@ public class UnidadMemoriaInstrucciones {
 
 			bufferInstrucciones.close();
 		} catch (IOException e) {
-			System.out.println("Ha habido un problema, con el fichero del programa.");
+			throw new IOException("Ha habido un problema con el fichero del programa.");
 		}
 	}
 
