@@ -1,5 +1,10 @@
 package ram;
 
+/**
+ * Programa que ejecuta la ram a partir de los fichero recibidos.
+ * 
+ * @author Jorge González Cabrera
+ */
 public class Main {
 
 	public static void main(String[] args) {

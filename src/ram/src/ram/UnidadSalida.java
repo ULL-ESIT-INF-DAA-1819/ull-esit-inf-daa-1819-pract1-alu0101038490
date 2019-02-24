@@ -6,11 +6,29 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Clase para simular una unidad de salida.
+ * 
+ * @author Jorge González Cabrera
+ */
 public class UnidadSalida {
 
+	/**
+	 * Datos presentes en la cinta de salida.
+	 */
 	private ArrayList<Integer> cintaSalida;
+
+	/**
+	 * Nombre del archivo donde volcar los datos cuando acabe el programa.
+	 */
 	private String nombreArchivoSalida;
 
+	/**
+	 * Constructor. Comprueba que en el archivo dado se puede escribir.
+	 * 
+	 * @param nombreArchivoSalida Valor asignado para el atributo
+	 *                            nombreArchivoSalida.
+	 */
 	public UnidadSalida(String nombreArchivoSalida) {
 		File archivoSalida = new File(nombreArchivoSalida);
 		if (!archivoSalida.canWrite()) {
@@ -21,10 +39,18 @@ public class UnidadSalida {
 		this.nombreArchivoSalida = nombreArchivoSalida;
 	}
 
+	/**
+	 * Añade un nuevo valor a la cinta de salida.
+	 * 
+	 * @param valor Valor que se quiere añadir a la cinta de salida.
+	 */
 	public void set(int valor) {
 		cintaSalida.add(valor);
 	}
 
+	/**
+	 * Introduce los datos de la cinta de salida en el archivo dado.
+	 */
 	public void cerrar() {
 		try {
 			BufferedWriter archivoSalida = new BufferedWriter(new FileWriter(nombreArchivoSalida));
@@ -38,6 +64,11 @@ public class UnidadSalida {
 		}
 	}
 
+	/**
+	 * Método para formatear los datos de la cinta de salida en una cadena de texto.
+	 * 
+	 * @return los datos formateados.
+	 */
 	@Override
 	public String toString() {
 		String resultado = "Cinta de salida: ";
