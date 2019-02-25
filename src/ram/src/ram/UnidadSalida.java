@@ -54,9 +54,10 @@ public class UnidadSalida {
 	/**
 	 * Introduce los datos de la cinta de salida en el archivo dado.
 	 * 
-	 * @exception IOException si el archivo de salida da algún problema.
+	 * @exception IllegalArgumentException si el archivo de salida da algún
+	 *                                     problema.
 	 */
-	public void cerrar() throws IOException {
+	public void cerrar() {
 		try {
 			BufferedWriter archivoSalida = new BufferedWriter(new FileWriter(nombreArchivoSalida));
 			for (Integer i : cintaSalida) {
@@ -65,7 +66,7 @@ public class UnidadSalida {
 			}
 			archivoSalida.close();
 		} catch (IOException e) {
-			throw new IOException("Ha habido un problema con el fichero de salida.");
+			throw new IllegalArgumentException("Ha habido un problema con el fichero de salida.");
 		}
 	}
 
