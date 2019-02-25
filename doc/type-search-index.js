@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"ram","l":"Instruccion"},{"p":"ram","l":"InstruccionesValidas"},{"p":"ram","l":"Main"},{"p":"ram","l":"UnidadAritmeticaControlLogica"},{"p":"ram","l":"UnidadEntrada"},{"p":"ram","l":"UnidadMemoriaDatos"},{"p":"ram","l":"UnidadMemoriaInstrucciones"},{"p":"ram","l":"UnidadSalida"}]

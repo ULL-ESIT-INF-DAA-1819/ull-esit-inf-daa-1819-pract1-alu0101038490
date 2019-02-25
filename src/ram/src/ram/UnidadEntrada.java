@@ -27,6 +27,9 @@ public class UnidadEntrada {
 	 * 
 	 * @param nombreArchivoEntrada Nombre del archivo en el que se encuentran los
 	 *                             datos de la cinta de entrada.
+	 *                             
+	 * @exception IOException si el archivo de entrada da algún problema.
+	 * @exception IllegalArgumentException si uno de los valores de la cinta no es un entero.
 	 */
 	public UnidadEntrada(String nombreArchivoEntrada) throws IOException {
 		this.cintaEntrada = new ArrayList<Integer>();
@@ -63,6 +66,8 @@ public class UnidadEntrada {
 	 * Accede al siguiente dato de la cinta de entrada.
 	 * 
 	 * @return el siguiente dato de la cinta de entrada.
+	 * 
+	 * @exception IllegalStateException si la cinta de entrada no tiene más valores.
 	 */
 	public Integer get() {
 		if (posicion >= cintaEntrada.size()) {

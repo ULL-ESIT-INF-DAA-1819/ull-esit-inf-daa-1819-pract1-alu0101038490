@@ -45,6 +45,8 @@ public class UnidadAritmeticaControlLogica {
 	 *                             atributo unidadEntrada.
 	 * @param archivoSalida        Nombre del archivo de salida para inicializar el
 	 *                             atributo unidadSalida.
+	 * 
+	 * @exception IOException si algunos de los archivos dados da algún problema.
 	 */
 	public UnidadAritmeticaControlLogica(String archivoInstrucciones, String archivoEntrada, String archivoSalida)
 			throws IOException {
@@ -104,6 +106,8 @@ public class UnidadAritmeticaControlLogica {
 	 * Maneja el registro ip y decide que ejecutar con la instrucción dada.
 	 * 
 	 * @param instruccion Instrucción que se desea ejecutar.
+	 * 
+	 * @exception IllegalArgumentException si el nombre de la instrucción recibida no es válida.
 	 */
 	private void ejecutarInstruccion(Instruccion instruccion) {
 		ip++;
@@ -156,6 +160,8 @@ public class UnidadAritmeticaControlLogica {
 	 * operando es válido.
 	 * 
 	 * @param operando Operando que utilizará la instrucción.
+	 * 
+	 * @exception IllegalArgumentException si el operando no es válido para esta instrucción.
 	 */
 	private void add(String operando) {
 		int valorRegistroCero = unidadMemoriaDatos.get(0);
@@ -179,6 +185,8 @@ public class UnidadAritmeticaControlLogica {
 	 * operando es válido.
 	 * 
 	 * @param operando Operando que utilizará la instrucción.
+	 * 
+	 * @exception IllegalArgumentException si el operando no es válido para esta instrucción.
 	 */
 	private void div(String operando) {
 		int valorRegistroCero = unidadMemoriaDatos.get(0);
@@ -202,6 +210,8 @@ public class UnidadAritmeticaControlLogica {
 	 * operando es válido.
 	 * 
 	 * @param operando Operando que utilizará la instrucción.
+	 * 
+	 * @exception IllegalArgumentException si el operando no es válido para esta instrucción.
 	 */
 	private void mul(String operando) {
 		int valorRegistroCero = unidadMemoriaDatos.get(0);
@@ -226,6 +236,8 @@ public class UnidadAritmeticaControlLogica {
 	 * operando es válido.
 	 * 
 	 * @param operando Operando que utilizará la instrucción.
+	 * 
+	 * @exception IllegalArgumentException si el operando no es válido para esta instrucción.
 	 */
 	private void sub(String operando) {
 		int valorRegistroCero = unidadMemoriaDatos.get(0);
@@ -248,6 +260,8 @@ public class UnidadAritmeticaControlLogica {
 	 * El operando se carga en R0. Comprueba si el operando es válido.
 	 * 
 	 * @param operando Operando que utilizará la instrucción.
+	 * 
+	 * @exception IllegalArgumentException si el operando no es válido para esta instrucción.
 	 */
 	private void load(String operando) {
 		int valorParaCargar;
@@ -270,6 +284,8 @@ public class UnidadAritmeticaControlLogica {
 	 * el operando es válido.
 	 * 
 	 * @param operando Operando que utilizará la instrucción.
+	 * 
+	 * @exception IllegalArgumentException si el operando no es válido para esta instrucción.
 	 */
 	private void store(String operando) {
 		int registroDondeAlmacenar;
@@ -291,6 +307,8 @@ public class UnidadAritmeticaControlLogica {
 	 * identificada por la etiqueta. Comprueba si el operando es válido.
 	 * 
 	 * @param operando Operando que utilizará la instrucción.
+	 * 
+	 * @exception IllegalArgumentException si el operando no es válido para esta instrucción.
 	 */
 	private void jump(String operando) {
 		if (operando.matches("[a-zA-Z][a-zA-Z_0-9]*")) {
@@ -311,6 +329,8 @@ public class UnidadAritmeticaControlLogica {
 	 * válido.
 	 * 
 	 * @param operando Operando que utilizará la instrucción.
+	 * 
+	 * @exception IllegalArgumentException si el operando no es válido para esta instrucción.
 	 */
 	private void jzero(String operando) {
 		if (operando.matches("[a-zA-Z][a-zA-Z_0-9]*")) {
@@ -329,9 +349,11 @@ public class UnidadAritmeticaControlLogica {
 
 	/**
 	 * El valor del registro IP se modifica para apuntar a la instrucción
-	 * identificada por la etiqueta (si R0 > 0). Comprueba si el operando es válido.
+	 * identificada por la etiqueta (si R0 es mayor que 0). Comprueba si el operando es válido.
 	 * 
 	 * @param operando Operando que utilizará la instrucción.
+	 * 
+	 * @exception IllegalArgumentException si el operando no es válido para esta instrucción.
 	 */
 	private void jgtz(String operando) {
 		if (operando.matches("[a-zA-Z][a-zA-Z_0-9]*")) {
@@ -353,6 +375,8 @@ public class UnidadAritmeticaControlLogica {
 	 * operando. Comprueba si el operando es válido (no puede usar el R0).
 	 * 
 	 * @param operando Operando que utilizará la instrucción.
+	 * 
+	 * @exception IllegalArgumentException si el operando no es válido para esta instrucción.
 	 */
 	private void read(String operando) {
 		int registroDondeAlmacenar;
@@ -377,6 +401,8 @@ public class UnidadAritmeticaControlLogica {
 	 * válido (no puede usar el R0).
 	 * 
 	 * @param operando Operando que utilizará la instrucción.
+	 * 
+	 * @exception IllegalArgumentException si el operando no es válido para esta instrucción.
 	 */
 	private void write(String operando) {
 		int valorParaAlmacenar;
@@ -407,6 +433,8 @@ public class UnidadAritmeticaControlLogica {
 	 * debería tener ninguno).
 	 * 
 	 * @param operando Operando que utilizará la instrucción.
+	 * 
+	 * @exception IllegalArgumentException si el operando no es válido para esta instrucción.
 	 */
 	private void halt(String operando) {
 		if (operando.isEmpty()) {
@@ -434,6 +462,4 @@ public class UnidadAritmeticaControlLogica {
 
 }
 
-//TODO: comentarios de excepciones
 //TODO: get ip deberia dar nulo solo al final
-//TODO: eficiencia cintas, programa principal y excepciones

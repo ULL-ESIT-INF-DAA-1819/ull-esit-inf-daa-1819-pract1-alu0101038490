@@ -28,6 +28,9 @@ public class UnidadSalida {
 	 * 
 	 * @param nombreArchivoSalida Valor asignado para el atributo
 	 *                            nombreArchivoSalida.
+	 * 
+	 * @exception IllegalArgumentException si no se puede escribir en el archivo de
+	 *                                     salida.
 	 */
 	public UnidadSalida(String nombreArchivoSalida) {
 		File archivoSalida = new File(nombreArchivoSalida);
@@ -50,8 +53,10 @@ public class UnidadSalida {
 
 	/**
 	 * Introduce los datos de la cinta de salida en el archivo dado.
+	 * 
+	 * @exception IOException si el archivo de salida da algún problema.
 	 */
-	public void cerrar() {
+	public void cerrar() throws IOException {
 		try {
 			BufferedWriter archivoSalida = new BufferedWriter(new FileWriter(nombreArchivoSalida));
 			for (Integer i : cintaSalida) {
@@ -60,7 +65,7 @@ public class UnidadSalida {
 			}
 			archivoSalida.close();
 		} catch (IOException e) {
-			throw new IllegalArgumentException("Ha habido un problema con el fichero de salida.");
+			throw new IOException("Ha habido un problema con el fichero de salida.");
 		}
 	}
 

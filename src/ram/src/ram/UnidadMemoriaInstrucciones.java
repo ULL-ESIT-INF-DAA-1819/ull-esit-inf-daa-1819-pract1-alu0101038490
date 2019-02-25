@@ -25,6 +25,9 @@ public class UnidadMemoriaInstrucciones {
 	 * 
 	 * @param archivoInstrucciones Nombre del fichero donde está escrito el
 	 *                             programa.
+	 *                             
+	 * @exception IOException si el archivo de programa da algún problema.
+	 * @exception IllegalArgumentException si alguna instrucción no está permitida.
 	 */
 	public UnidadMemoriaInstrucciones(String archivoInstrucciones) throws IOException {
 		this.instrucciones = new ArrayList<>();
@@ -116,10 +119,12 @@ public class UnidadMemoriaInstrucciones {
 	}
 
 	/**
-	 * Accede a la instrucción en una posición concreta.
+	 * Accede a la instrucción en una posición concreta, o null si es la posición de salida.
 	 * 
 	 * @param ip Posición de la instrucción a la que se quiere acceder.
 	 * @return la instrucción requerida o null si no es una posición válida.
+	 * 
+	 * @exception IllegalArgumentException si la ip no es válida.
 	 */
 	public Instruccion get(int ip) {
 		if (ip < instrucciones.size() && ip >= 0) {

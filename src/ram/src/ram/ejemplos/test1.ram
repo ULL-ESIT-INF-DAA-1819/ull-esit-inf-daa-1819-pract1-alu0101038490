@@ -6,5 +6,5 @@ lee:	read 1
 			load 1
 			jzero fin
 			write 1
-			jump lee
+			jump lee2
 fin:	halt
