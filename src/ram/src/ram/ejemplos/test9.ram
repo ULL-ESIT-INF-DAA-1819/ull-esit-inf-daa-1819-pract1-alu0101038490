@@ -1,0 +1,52 @@
+    read 1
+    read 2   
+    
+    #log1(2) = 3 -> 1^3=2 | 4 = 1^3
+
+    load =0
+    store 3
+    load =1
+    store 4
+
+    # bucle para encontrar un exponente que de un resultado mayor al esperado
+bucle: 
+    load 4
+    mul 1
+    store 4
+
+    load 3
+    add =1
+    store 3
+
+    load 2
+    sub 4
+
+    jgtz bucle
+    
+    # comprobación para ver si restando uno al exponente está más cerca del resultado
+
+    load 4
+    div 1
+    store 6
+
+    load 4
+    sub 2
+    store 5
+
+    load 2
+    sub 6
+    store 7
+
+    sub 5
+    jgtz fin
+
+    # elección del resultado a escribir
+
+primero:
+    load 3
+    sub =1
+    store 3
+
+fin:
+    write 3
+    halt
