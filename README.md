@@ -10,4 +10,4 @@ This directory is organised as follows:
 
 
 
-Se ha realizado la modificación. Se encuentra al lado del código fuente en una carpeta con el resto de ejemplos propuestos en la práctica.
+Se ha realizado la modificación. Se encuentra al lado del código fuente en una carpeta con el resto de ejemplos propuestos en la práctica con el nombre **test9.ram**.
